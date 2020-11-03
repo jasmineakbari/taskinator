@@ -11,6 +11,13 @@ var taskFormHandler = function(event) {
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     // References Task Type Drop down
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
+    // check if input values are empty strings
+    if (!taskNameInput || !taskTypeInput) {
+        alert("You need to fill out the task form!");
+        return false;
+    }
+
+    formEl.reset();
 
     //packages data as an object
     var taskDataObj = {
