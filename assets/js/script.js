@@ -216,6 +216,7 @@ var dropZoneDragHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
         event.preventDefault();
+        taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
     }
 };
 
@@ -237,8 +238,20 @@ var dropTaskHandler = function(event) {
         statusSelectEl.selectedIndex = 2;
     }
 
+    // removes extra styling on columns upon dropping task
+    dropZoneEl.removeAttribute("style");
     dropZoneEl.appendChild(draggableElement);
 }
+
+var dragLeaveHandler = function(event){
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        taskListEl.removeAttribute("style");
+    }
+}
+
+// event listener for drag leave
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
 // event listener to drop items in columns
 pageContentEl.addEventListener("drop", dropTaskHandler);
