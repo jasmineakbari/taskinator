@@ -4,6 +4,8 @@ var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 // variable for task counter
 var taskIdCounter = 0;
+// variable for main section
+var pageContentEl = document.querySelector("#page-content");
 
 // Function to add list item
 var taskFormHandler = function(event) {
@@ -110,3 +112,25 @@ var createTaskActions = function(taskId) {
 
 // Upon submitting or pressing enter on their kb form perform function
 formEl.addEventListener("submit", taskFormHandler);
+// taskButtonHandler function
+var taskButtonHandler = function(event) {
+    console.log(event.target);
+
+    if (event.target.matches(".delete-btn")) {
+        // get the elements task id
+        var taskId = event.target.getAttribute("data-task-id");
+        console.log(taskId);
+    }
+
+    if (event.target.matches(".delete-btn")) {
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
+
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+}
+// event listener for Main Section clicks
+pageContentEl.addEventListener("click", taskButtonHandler);
