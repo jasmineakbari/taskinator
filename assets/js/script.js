@@ -1,11 +1,15 @@
 // references form from html
 var formEl = document.querySelector("#task-form");
-// references ul from html
+// references tasks to do column
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 // variable for task counter
 var taskIdCounter = 0;
 // variable for main section
 var pageContentEl = document.querySelector("#page-content");
+// references tasks in progress column
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+// references completed column
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 
 // Function to add list item
 var taskFormHandler = function(event) {
@@ -43,6 +47,28 @@ var taskFormHandler = function(event) {
     createTaskEl(taskDataObj);
     }
 
+};
+
+// function for task status changes
+var taskStatusChangeHandler = function(event) {
+    // get the task items id
+    var taskId = event.target.getAttribute("data-task-id");
+
+    // get the currently selected option's value and convert to lowercase
+    var statusValue = event.target.value.toLowerCase();
+
+    // find the parent task item element based on the id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId +"']");
+
+    if (statusValue === "to do") {
+        tasksToDoEl.appendChild(taskSelected);
+    }
+    else if (statusValue === "in progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+    }
+    else if (statusValue === "completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+    }
 };
 
 var completeEditTask = function(taskName, taskType, taskId) {
@@ -120,7 +146,7 @@ var createTaskActions = function(taskId) {
     statusSelectEl.setAttribute("name", "status-change");
     statusSelectEl.setAttribute("data-task-id", taskId);
 
-    var statusChoices = ["To-Do", "In Progress", "Completed"];
+    var statusChoices = ["To Do", "In Progress", "Completed"];
     for (var i = 0; i < statusChoices.length; i++) {
         //create option element
         var statusOptionEl = document.createElement("option");
@@ -178,3 +204,6 @@ var deleteTask = function(taskId) {
 };
 // event listener for Main Section clicks
 pageContentEl.addEventListener("click", taskButtonHandler);
+
+// event listener for task drop down
+pageContentEl.addEventListener("change", taskStatusChangeHandler);
