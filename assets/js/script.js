@@ -93,6 +93,8 @@ var createTaskEl = function(taskDataObj) {
 
     // use custom attribute to add id to each new task
     listItemEl.setAttribute("data-task-id", taskIdCounter);
+    // makes the list item draggable
+    listItemEl.setAttribute("draggable", "true");
 
     // creates a div to hold rask infor and add to list item
     var taskInfoEl = document.createElement("div")
@@ -202,6 +204,18 @@ var deleteTask = function(taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
 };
+
+var dragTaskHandler = function(event) {
+    var taskId = event.target.getAttribute("data-task-id");
+    // stores task id in data transfer property in console
+    event.dataTransfer.setData("text/plain", taskId);
+    var getId = event.dataTransfer.getData("text/plain");
+    console.log("getId:", getId, typeof getId);
+}
+
+// dragstart event listern for Main Section
+pageContentEl.addEventListener("dragstart", dragTaskHandler);
+
 // event listener for Main Section clicks
 pageContentEl.addEventListener("click", taskButtonHandler);
 
