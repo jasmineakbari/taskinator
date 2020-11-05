@@ -210,10 +210,46 @@ var dragTaskHandler = function(event) {
     // stores task id in data transfer property in console
     event.dataTransfer.setData("text/plain", taskId);
     var getId = event.dataTransfer.getData("text/plain");
-    console.log("getId:", getId, typeof getId);
 }
 
-// dragstart event listern for Main Section
+var dropZoneDragHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        event.preventDefault();
+    }
+};
+
+// function handling dropping tasks
+var dropTaskHandler = function(event) {
+    var id = event.dataTransfer.getData("text/plain");
+    var draggableElement = document.querySelector("[data-task-id ='" +id + "']");
+    var dropZoneEl = event.target.closest(".task-list");
+    var statusType = dropZoneEl.id;
+    var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+
+    if (statusType ==="tasks-do-do") {
+        statusSelectEl.selectedIndex = 0;
+    }
+    else if (statusType === "tasks-in-progress") {
+        statusSelectEl.selectedIndex = 1;
+    }
+    else if (statusType === "tasks-completed") {
+        statusSelectEl.selectedIndex = 2;
+    }
+
+    dropZoneEl.appendChild(draggableElement);
+}
+
+// event listener to drop items in columns
+pageContentEl.addEventListener("drop", dropTaskHandler);
+
+// event listener to confine dragging of items in columns
+pageContentEl.addEventListener("draggable", dropZoneDragHandler);
+
+// event listener to all dragover
+pageContentEl.addEventListener("dragover", dropZoneDragHandler);
+
+// dragstart event listener for Main Section
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
 
 // event listener for Main Section clicks
