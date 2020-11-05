@@ -2,6 +2,8 @@
 var formEl = document.querySelector("#task-form");
 // references ul from html
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+// variable for task counter
+var taskIdCounter = 0;
 
 // Function to add list item
 var taskFormHandler = function(event) {
@@ -35,6 +37,9 @@ var createTaskEl = function(taskDataObj) {
     // Setting class name for li with .className
     listItemEl.className = "task-item";
 
+    // use custom attribute to add id to each new task
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
     // creates a div to hold rask infor and add to list item
     var taskInfoEl = document.createElement("div")
     // Gives created div a class name
@@ -46,6 +51,9 @@ var createTaskEl = function(taskDataObj) {
     listItemEl.appendChild(taskInfoEl);
     // .appendChild will add li created to end of ul
     tasksToDoEl.appendChild(listItemEl);
+
+    // increase task counter for next unique id
+    taskIdCounter++;
 }
 
 // Upon submitting or pressing enter on their kb form perform function
