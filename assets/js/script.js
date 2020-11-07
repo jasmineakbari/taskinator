@@ -318,11 +318,10 @@ var loadTasks = function() {
     }
   
     savedTasks = JSON.parse(savedTasks);
-  }
 
   for (var i = 0; i < savedTasks.length; i++) {
       createTaskEl(savedTasks[i]);
-  }
+    }
 
 };
 
