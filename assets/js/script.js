@@ -305,7 +305,26 @@ var dragLeaveHandler = function(event){
 // save tasks to localstoarge function
 var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+};
+
+// Gets task item from local Storage
+//converts tasks from string form back into an array of objs
+//iterates through a tasks array and creates task elements on the page from it
+var loadTasks = function() {
+    var savedTasks = localStorage.getItem("tasks");
+
+    if (!savedTasks) {
+      return false;
+    }
+  
+    savedTasks = JSON.parse(savedTasks);
+  }
+
+  for (var i = 0; i < savedTasks.length; i++) {
+      createTaskEl(savedTasks[i]);
+  }
+
+};
 
 // event listener for drag leave
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
@@ -327,3 +346,5 @@ pageContentEl.addEventListener("click", taskButtonHandler);
 
 // event listener for task drop down
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+loadTasks();
